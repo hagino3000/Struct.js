@@ -5,7 +5,7 @@
 * Throws error when **read undefined property**.
 * Throws error when **write undefined property**.
 * Throws error when **delete undefined property**.
-* Throws error when **write unmatched type**.
+* Throws error when **write with unmatched type**.
 
 ## Example
 
