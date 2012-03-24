@@ -6,6 +6,7 @@
 * Throws error when **write undefined property**.
 * Throws error when **delete undefined property**.
 * Throws error when **write with unmatched type**.
+* Throws error when **write not writable property**.
 
 ## Example
 
@@ -27,6 +28,8 @@
     var bar = sasuke.undefProp; // Throws error (read undefined property)
     sasuke.life = '50';         // Throws error (type unmatch)
     sasuke.newProp = 'foo';     // Throws error (write undefined property)
+
+    sasuke.age = 99; // Throws error (write not writable property)
 
     delete sasuke.life;  // works
     delete sasuke.life_; // Throws error (delete undefined property)

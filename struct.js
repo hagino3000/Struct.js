@@ -10,16 +10,9 @@
   Example:
 
     Struct.reg('ninja', {
-      name: {
-        type: 'string'
-      }, 
-      life: {
-        type: 'number'
-      },
-      age: {
-        type: 'number',
-        writable: false
-      }
+      name: {type: 'string'}, 
+      life: {type: 'number'},
+      age:  {type: 'number', writable: false}
     });
 
     var sasuke = Struct.create('ninja', {
@@ -28,17 +21,18 @@
       age: 20
     });
 
-    sasuke.life = 50; // works
+    sasuke.life = 50;       // works
     var name = sasuke.name; // works
 
     var bar = sasuke.undefProp; // Throws error
-    sasuke.life = '50'; // Throws error
-    sasuke.newProp = 'foo'; // Throws error
+    sasuke.life = '50';         // Throws error
+    sasuke.newProp = 'foo';     // Throws error
 
-    delete sasuke.life; // works
+    delete sasuke.life;  // works
     delete sasuke.life_; // Throws error
 
   TODO:
+
     Check property descriptor when set value.
 
  *
@@ -181,23 +175,23 @@
       set: function(receiver, name, val) {
         if (name in props) {
 
-          // TODO
           // Check property descriptor
-          //var desc = this.getOwnPropertyDescriptor(name);  
-
-          var safe = false;
-          if (val === null || val === undefined) {
-            safe = true;
-          } else if (typeof(val) === props[name].type) {
-            safe = true;
+          var desc = this.getOwnPropertyDescriptor(name);  
+          if (!desc || !desc.writable) {
+            throw name + ' is not writable property';
           }
 
-          if (safe) {
-            obj[name] = val;
-            return true;
+          // Check type
+          var safe = false;
+          if (val === null || val === undefined || 
+              (typeof(val) === props[name].type)) {
+            // OK
           } else {
             throw name + ' must be ' + props[name].type + ' type';
           }
+
+          obj[name] = val;
+          return true;
         } else {
           throw name + ' is not defined in this struct';
         }

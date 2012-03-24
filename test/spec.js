@@ -123,10 +123,10 @@ describe('Create struct object', function() {
     expect(hanzo.life).toBe(9999);
   });
 
-  xit('Cannot update readonly property', function() {
+  it('Cannot update readonly property', function() {
     expect(function() {
       hanzo.age = 21;
-    }).toThrow("...");
+    }).toThrow("age is not writable property");
   });
 
 });
