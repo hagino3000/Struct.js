@@ -1,0 +1,16 @@
+#ignore vim swap file
+.*.swp
+.lock-*
+#ignore Desktop Service Store files created by mac
+*.DS_Store
+#ignore generated files
+[Bb]in
+[Dd]ebug*/
+obj/
+[Rr]elease*/
+_ReSharper*/
+[Tt]est[Rr]esult*
+_build
+build
+
+.svn
