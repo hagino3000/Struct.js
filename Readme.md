@@ -1,6 +1,6 @@
 # C Struct like object for JavaScript
 
-## Strict.js provides more strict type checking.
+## Struct.js provides more strict type checking.
 
 * Throws error when **read undefined property**.
 * Throws error when **write undefined property**.
