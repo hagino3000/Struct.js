@@ -10,16 +10,9 @@
 ## Example
 
     Struct.reg('ninja', {
-      name: {
-        type: 'string'
-      }, 
-      life: {
-        type: 'number'
-      },
-      age: {
-        type: 'number',
-        writable: false
-      }
+      name: { type: 'string' }, 
+      life: { type: 'number' },
+      age:  { type: 'number', writable: false }
     });
 
     var sasuke = Struct.create('ninja', {
