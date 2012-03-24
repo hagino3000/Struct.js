@@ -1,6 +1,9 @@
 # C Struct like object for JavaScript
 
-## Strict.js provides more strict type checking.
+## Struct.js provides more strict type checking.
+
+When violated property definition with property acccess, throws error.
+
 
     Struct.reg('ninja', {
       name: {
