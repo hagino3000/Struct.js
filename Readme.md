@@ -4,6 +4,10 @@
 
 When violated property definition with property acccess, throws error.
 
+* Throws error when read undefined property.
+* Throws error when write undefined property.
+* Throws error when delete undefined property.
+* Throws error when write unmatched type.
 
     Struct.reg('ninja', {
       name: {
