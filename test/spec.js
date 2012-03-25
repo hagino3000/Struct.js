@@ -25,10 +25,12 @@ describe('Register struct', function() {
 
     Struct.reg('ninja', {
       name: {
-        type: 'string'
+        type: 'string',
+        writable: true
       },
       life: {
-        type: 'number'
+        type: 'number',
+        writable: true
       },
       age: {
         type: 'number',
@@ -79,7 +81,20 @@ describe('Create struct object', function() {
 
     expect(hanzo.name).toBe('Hanzo');
     expect(hanzo.life).toBe(200);
+
   });
+
+  it('Should be created specified struct without object', function() {
+
+    var n = Struct.create('ninja');
+    n.name = 'Sasuke';
+    n.life = 10;
+
+    expect(n.name).toBe('Sasuke');
+    expect(n.life).toBe(10);
+    expect(n.age).toBeUndefined();
+  });
+
 
   describe('Should be sealed undefiend property access', function() {
 

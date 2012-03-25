@@ -79,9 +79,10 @@
     if (!this.structs.hasOwnProperty(name)) {
       throw 'Struct named "' + name + '" is not registered';
     }
+    obj = obj || {};
 
     var props = this.structs[name];
-    Object.defineProperties(obj || {}, props);
+    Object.defineProperties(obj, props);
 
     var ret;
     if (hasProxyAPI) {
