@@ -34,6 +34,9 @@
     delete sasuke.life;  // works
     delete sasuke.life_; // Throws error (delete undefined property)
 
+    //Check struct type name
+    Struct.getType(sasuke); // => ninja
+
 ## Strict.js need Proxy API (ECMAScript6)
 
 Now Strict.js works on Firefox4 or Chrome (need configure).

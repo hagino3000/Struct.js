@@ -10,7 +10,7 @@
   Example:
 
     Struct.reg('ninja', {
-      name: {type: 'string'}, 
+      name: {type: 'string'},
       life: {type: 'number'},
       age:  {type: 'number', writable: false}
     });
@@ -51,31 +51,57 @@
     structs: {}
   };
 
+  var STRUCT_NAME_KEY = '__structName__';
+
   /**
    * Register new struct.
    *
    * @param {String} name Struct name.
-   * @param {Object} props Struct definition.
+   * @param {Object} props Property configs.
    */
   Struct.reg = function(name, props) {
-    if (typeof(name) !== "string") {
-      throw "First argument must be String type (Struct name)";
+    if (typeof(name) !== 'string') {
+      throw 'First argument must be String type (Struct name)';
     }
-    if (typeof(props) !== "object") {
-      throw "Second argument must be Object type (Property settings)";
+    if (typeof(props) !== 'object') {
+      throw 'Second argument must be Object type (Property settings)';
     }
-
     if (this.structs[name]) {
       throw name + ' is already registered';
-    } else {
-      Object.keys(props).forEach(function(k) {
-        // Set default setting writable:true
-        if (props[k].writable === undefined) {
-          props[k].writable = true;
-        }
-      });
-      this.structs[name] = props;
     }
+
+    Object.keys(props).forEach(function(k) {
+      // Set default writable:true
+      if (props[k].writable === undefined) {
+        props[k].writable = true;
+      }
+    });
+
+    // Add type name property
+    props[STRUCT_NAME_KEY] = {
+      value: name,
+      wriatble: false,
+      enumerable: false
+    };
+
+    this.structs[name] = props;
+  }
+
+  /**
+   * Gets struct type name.
+   *
+   * @param {Object} obj Object.
+   * @return {String} Type name. Returns undefined
+   * if an argument is not a Struct object.
+   */
+  Struct.getType = function(obj) {
+    if (typeof obj !== 'object') {
+      throw 'First argument must be object type';
+    }
+    if (obj.hasOwnProperty(STRUCT_NAME_KEY)) {
+      return obj[STRUCT_NAME_KEY];
+    }
+    return undefined;
   }
 
   // Check Proxy API is enabled
@@ -87,6 +113,7 @@
    *
    * @param {String} name Struct name.
    * @param {Object} obj Base object (option).
+   * @return {Object} Struct object.
    */
   Struct.create = function(name, obj) {
     if (!this.structs.hasOwnProperty(name)) {
@@ -157,7 +184,7 @@
             return Object.getOwnPropertyDescriptor(obj, name);
           });
         }
-        // As long as obj is not frozen, 
+        // As long as obj is not frozen,
         // the proxy won't allow itself to be fixed
         return undefined; // will cause a TypeError to be thrown
       },
@@ -190,14 +217,14 @@
         if (name in props) {
 
           // Check property descriptor
-          var desc = this.getOwnPropertyDescriptor(name);  
+          var desc = this.getOwnPropertyDescriptor(name);
           if (!desc || !desc.writable) {
             throw name + ' is not writable property';
           }
 
           // Check type
           var safe = false;
-          if (val === null || val === undefined || 
+          if (val === null || val === undefined ||
               (typeof(val) === props[name].type)) {
             // OK
           } else {
@@ -213,12 +240,12 @@
 
       enumerate: function() {
         var result = [];
-        for (name in obj) { result.push(name); }
+        for (var name in obj) { result.push(name); }
         return result;
       },
 
       keys: function() {
-        return Object.keys(obj)
+        return Object.keys(obj);
       }
     };
   }

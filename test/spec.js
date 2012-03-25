@@ -144,4 +144,42 @@ describe('Create struct object', function() {
     }).toThrow("age is not writable property");
   });
 
+  it('Should not get __structName__ property by (for .. in) statement', function() {
+    for (var p in hanzo) {
+      expect(p).not.toBe('__structName__');
+    }
+
+    // But struct object has __structName__ property
+    expect(hanzo.hasOwnProperty('__structName__')).toBe(true);
+  });
+
+});
+
+describe('Check struct type name', function() {
+
+  it('Should get struct name', function() {
+    Struct.reg('ForTypeCheck', {
+      hoge: {type: 'string'}
+    });
+    var c = Struct.create('ForTypeCheck');
+    expect(Struct.getType(c)).toBe('ForTypeCheck');
+
+    Struct.reg('ForUnitTest', {
+      hoge: {type: 'string'}
+    });
+    var c2 = Struct.create('ForUnitTest');
+    expect(Struct.getType(c2)).toBe('ForUnitTest');
+  });
+
+  it('Should get undefined (normal object)', function() {
+    expect(Struct.getType({})).toBeUndefined();
+  });
+
+  it('Throws error when wrong parameter', function() {
+    expect(function() {
+      Struct.getType(true);
+    }).toThrow('First argument must be object type');
+  });
+
+
 });
