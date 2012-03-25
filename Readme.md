@@ -39,7 +39,7 @@
     //Check struct type name
     Struct.getType(sasuke); // => ninja
 
-## Strict.js needs Proxy API (ECMAScript 6 Harmony)
+## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 
 Now Struct.js works on Firefox4 or Chrome (need configure).
 On the other browser, struct object doesn't throw errors.
