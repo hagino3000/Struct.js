@@ -20,21 +20,24 @@ describe('Global object definition', function() {
 
 describe('Register struct', function() {
 
+  it('Throws error when wrong parameter (name)', function() {
+    expect(function() {
+      Struct.reg({});
+    }).toThrow("First argument must be String type (Struct name)");
+  });
+
+  it('Throws error when wrong parameter (props)', function() {
+    expect(function() {
+      Struct.reg('hoge', 'fuga');
+    }).toThrow("Second argument must be Object type (Property settings)");
+  });
 
   it('Can register an new struct', function() {
-
     Struct.reg('ninja', {
-      name: {
-        type: 'string'
-      },
-      life: {
-        type: 'number'
-      },
-      age: {
-        type: 'number', writable: false
-      }
+      name: {type: 'string'},
+      life: {type: 'number'},
+      age:  {type: 'number', writable: false}
     });
-
     expect(Struct.structs['ninja']).toBeDefined();
   });
 

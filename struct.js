@@ -58,6 +58,13 @@
    * @param {Object} props Struct definition.
    */
   Struct.reg = function(name, props) {
+    if (typeof(name) !== "string") {
+      throw "First argument must be String type (Struct name)";
+    }
+    if (typeof(props) !== "object") {
+      throw "Second argument must be Object type (Property settings)";
+    }
+
     if (this.structs[name]) {
       throw name + ' is already registered';
     } else {
