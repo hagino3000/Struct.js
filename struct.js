@@ -9,7 +9,7 @@
 
   Example:
 
-    Struct.reg('ninja', {
+    Struct.define('ninja', {
       name: {type: 'string'},
       life: {type: 'number'},
       age:  {type: 'number', writable: false}
@@ -31,9 +31,7 @@
     delete sasuke.life;  // works
     delete sasuke.life_; // Throws error
 
-  TODO:
-
-    Check property descriptor when set value.
+    Struct.getType(sasuke); // => Returns 'ninja'
 
  *
  */
@@ -54,12 +52,12 @@
   var STRUCT_NAME_KEY = '__structName__';
 
   /**
-   * Register new struct.
+   * Define new struct.
    *
    * @param {String} name Struct name.
    * @param {Object} props Property configs.
    */
-  Struct.reg = function(name, props) {
+  Struct.define = function(name, props) {
     if (typeof(name) !== 'string') {
       throw 'First argument must be String type (Struct name)';
     }
@@ -67,7 +65,7 @@
       throw 'Second argument must be Object type (Property settings)';
     }
     if (this.structs[name]) {
-      throw name + ' is already registered';
+      throw name + ' is already defined';
     }
 
     Object.keys(props).forEach(function(k) {
@@ -117,7 +115,7 @@
    */
   Struct.create = function(name, obj) {
     if (!this.structs.hasOwnProperty(name)) {
-      throw 'Struct named "' + name + '" is not registered';
+      throw 'Struct named "' + name + '" is not defined';
     }
     obj = obj || {};
 

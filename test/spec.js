@@ -8,8 +8,8 @@ describe('Global object definition', function() {
     expect(window.Struct).toBeDefined();
   });
 
-  it('Defined function Struct.reg', function() {
-    expect(typeof Struct.reg).toBe('function');
+  it('Defined function Struct.define', function() {
+    expect(typeof Struct.define).toBe('function');
   });
 
   it('Defined function Struct.create', function() {
@@ -18,22 +18,22 @@ describe('Global object definition', function() {
 
 });
 
-describe('Register struct', function() {
+describe('Define struct', function() {
 
   it('Throws error when wrong parameter (name)', function() {
     expect(function() {
-      Struct.reg({});
+      Struct.define({});
     }).toThrow("First argument must be String type (Struct name)");
   });
 
   it('Throws error when wrong parameter (props)', function() {
     expect(function() {
-      Struct.reg('hoge', 'fuga');
+      Struct.define('hoge', 'fuga');
     }).toThrow("Second argument must be Object type (Property settings)");
   });
 
-  it('Can register an new struct', function() {
-    Struct.reg('ninja', {
+  it('Can define an new struct', function() {
+    Struct.define('ninja', {
       name: {type: 'string'},
       life: {type: 'number'},
       age:  {type: 'number', writable: false}
@@ -41,13 +41,13 @@ describe('Register struct', function() {
     expect(Struct.structs['ninja']).toBeDefined();
   });
 
-  it('Cannot register struct already registered', function() {
+  it('Cannot define struct already defined', function() {
     expect(function() {
-      Struct.reg('ninja', {
+      Struct.define('ninja', {
         name: 'string',
         life: 'number'
       });
-    }).toThrow('ninja is already registered');
+    }).toThrow('ninja is already defined');
   });
 
 });
@@ -63,12 +63,12 @@ describe('Create struct object', function() {
     }
   });
 
-  it('Cannot create with name not registered', function() {
+  it('Cannot create with name not defined', function() {
     expect(function() {
       var tmp = Struct.create('unknownStruct', {
         name: 'Hoge'
       });
-    }).toThrow('Struct named "unknownStruct" is not registered');
+    }).toThrow('Struct named "unknownStruct" is not defined');
   });
 
   it('Should be created specified struct with object', function() {
@@ -158,13 +158,13 @@ describe('Create struct object', function() {
 describe('Check struct type name', function() {
 
   it('Should get struct name', function() {
-    Struct.reg('ForTypeCheck', {
+    Struct.define('ForTypeCheck', {
       hoge: {type: 'string'}
     });
     var c = Struct.create('ForTypeCheck');
     expect(Struct.getType(c)).toBe('ForTypeCheck');
 
-    Struct.reg('ForUnitTest', {
+    Struct.define('ForUnitTest', {
       hoge: {type: 'string'}
     });
     var c2 = Struct.create('ForUnitTest');

@@ -10,12 +10,14 @@
 
 ## Example
 
-    Struct.reg('ninja', {
+    // Define struct
+    Struct.define('ninja', {
       name: {type: 'string'}, 
       life: {type: 'number'},
       age:  {type: 'number', writable: false}
     });
 
+    // Create struct object
     var sasuke = Struct.create('ninja', {
       name: 'Sasuke',
       life: 100,
@@ -39,8 +41,8 @@
 
 ## Strict.js need Proxy API (ECMAScript6)
 
-Now Strict.js works on Firefox4 or Chrome (need configure).
-On other browser, struct object doesn't throw errors.
+Now Struct.js works on Firefox4 or Chrome (need configure).
+On the other browser, struct object doesn't throw errors.
 
 ## License
 
