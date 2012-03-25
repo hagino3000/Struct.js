@@ -61,6 +61,12 @@
     if (this.structs[name]) {
       throw name + ' is already registered';
     } else {
+      Object.keys(props).forEach(function(k) {
+        // Set default setting writable:true
+        if (props[k].writable === undefined) {
+          props[k].writable = true;
+        }
+      });
       this.structs[name] = props;
     }
   }

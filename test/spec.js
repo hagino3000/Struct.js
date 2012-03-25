@@ -25,16 +25,13 @@ describe('Register struct', function() {
 
     Struct.reg('ninja', {
       name: {
-        type: 'string',
-        writable: true
+        type: 'string'
       },
       life: {
-        type: 'number',
-        writable: true
+        type: 'number'
       },
       age: {
-        type: 'number',
-        writable: false
+        type: 'number', writable: false
       }
     });
 
