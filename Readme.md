@@ -45,7 +45,7 @@ Now Struct.js works on Firefox4 or Chrome (need configure).
 On the other browser, struct object doesn't throw errors.
 
 ## Road map
-* Ver 0.2 - Support nested structure
+* Ver 0.2 - Support nested structure, nullable option
 
 ## License
 
