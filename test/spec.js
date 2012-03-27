@@ -33,21 +33,30 @@ describe('Define struct', function() {
   });
 
   it('Can define an new struct', function() {
-    Struct.define('ninja', {
+
+    Struct.define('Position', {
+      x: {type: 'number'},
+      y: {type: 'number'}
+    });
+
+    Struct.define('Ninja', {
       name: {type: 'string'},
       life: {type: 'number'},
-      age:  {type: 'number', writable: false}
+      age:  {type: 'number', writable: false},
+      pos:  {type: 'struct:Position'}
     });
-    expect(Struct.structs['ninja']).toBeDefined();
+
+    expect(Struct.structs['Position']).toBeDefined();
+    expect(Struct.structs['Ninja']).toBeDefined();
   });
 
   it('Cannot define struct already defined', function() {
     expect(function() {
-      Struct.define('ninja', {
+      Struct.define('Ninja', {
         name: 'string',
         life: 'number'
       });
-    }).toThrow('ninja is already defined');
+    }).toThrow('Ninja is already defined');
   });
 
 });
@@ -73,7 +82,7 @@ describe('Create struct object', function() {
 
   it('Should be created specified struct with object', function() {
 
-    hanzo = Struct.create('ninja', {
+    hanzo = Struct.create('Ninja', {
       name: 'Hanzo',
       life: 200,
       age: 20
@@ -86,7 +95,7 @@ describe('Create struct object', function() {
 
   it('Should be created specified struct without object', function() {
 
-    var n = Struct.create('ninja');
+    var n = Struct.create('Ninja');
     n.name = 'Sasuke';
     n.life = 10;
 
@@ -117,10 +126,29 @@ describe('Create struct object', function() {
     });
   });
 
+  it('Should be property changed by matched type', function() {
+    hanzo.pos = Struct.create('Position', {
+      x: 100,
+      y: 999
+    });
+    expect(hanzo.pos.x).toBe(100);
+    expect(hanzo.pos.y).toBe(999);
+    hanzo.pos.x = 1000;
+    hanzo.pos.y = 2000;
+    expect(hanzo.pos.x).toBe(1000);
+    expect(hanzo.pos.y).toBe(2000);
+  });
+
   it('Should be blocked unmatched type write', function() {
     expect(function() {
       hanzo.life = "100";
     }).toThrow("life must be number type");
+  });
+
+  it('Should be blocked unmatched type write (Struct)', function() {
+    expect(function() {
+      hanzo.pos = {x: 100, y: 200};
+    }).toThrow("pos must be struct:Position type");
   });
 
   it('Can set null value', function() {

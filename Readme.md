@@ -11,33 +11,38 @@
 ## Example
 
     // Define struct
-    Struct.define('ninja', {
-      name: {type: 'string'}, 
+    Struct.define('Position', {
+      x: {type: 'number'},
+      y: {type: 'number'}
+    });
+
+    Struct.define('Ninja', {
+      name: {type: 'string', writable: false}, 
       life: {type: 'number'},
-      age:  {type: 'number', writable: false}
+      pos:  {type: 'struct:Position'}
     });
 
     // Create struct object
-    var sasuke = Struct.create('ninja', {
+    var sasuke = Struct.create('Ninja', {
       name: 'Sasuke',
-      life: 100,
-      age: 20
+      life: 100
     });
 
     sasuke.life = 50;       // works
+    sasuke.pos = Struct.create({x: 0, y: 0}); // works
     var name = sasuke.name; // works
 
     var bar = sasuke.undefProp; // Throws error (read undefined property)
     sasuke.life = '50';         // Throws error (type unmatch)
+    sasuke.pos = {x:0, y:0, z:0}// Throws error (type unmatch)
     sasuke.newProp = 'foo';     // Throws error (write undefined property)
-
-    sasuke.age = 99; // Throws error (write not writable property)
+    sasuke.name = 'hanzo';      // Throws error (write readonly property)
 
     delete sasuke.life;  // works
     delete sasuke.life_; // Throws error (delete undefined property)
 
     //Check struct type name
-    Struct.getType(sasuke); // => ninja
+    Struct.getType(sasuke); // => Ninja
 
 ## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 

@@ -9,29 +9,33 @@
 
   Example:
 
-    Struct.define('ninja', {
-      name: {type: 'string'},
+    Struct.define('Position', {
+      x: {type: 'number'},
+      y: {type: 'number'}
+    });
+
+    Struct.define('Ninja', {
+      name: {type: 'string', writable: false},
       life: {type: 'number'},
-      age:  {type: 'number', writable: false}
+      pos:  {type: 'struct:Position'}
     });
 
-    var sasuke = Struct.create('ninja', {
-      name: 'Sasuke',
-      life: 100,
-      age: 20
+    var sasuke = Struct.create('Ninja', {
+      name: 'Sasuke'
     });
 
-    sasuke.life = 50;       // works
-    var name = sasuke.name; // works
+    sasuke.life = 50; // works
+    sasuke.pos = Struct.create('Position', {x:0, y:10}); // works
 
-    var bar = sasuke.undefProp; // Throws error
-    sasuke.life = '50';         // Throws error
-    sasuke.newProp = 'foo';     // Throws error
+    var bar = sasuke.undefProp;    // Throws error
+    sasuke.life = '50';            // Throws error
+    sasuke.pos = {x: 0, y:0, z:0}; // Throws error
+    sasuke.newProp = 'foo';        // Throws error
 
     delete sasuke.life;  // works
     delete sasuke.life_; // Throws error
 
-    Struct.getType(sasuke); // => Returns 'ninja'
+    Struct.getType(sasuke); // => Returns 'Ninja'
 
  *
  */
@@ -45,8 +49,8 @@
   var STRUCT_NAME_KEY = '__structName__';
 
   // Check Proxy API is enabled
-  var hasProxyAPI = window.Proxy && (typeof(Proxy.create) === 'function');
-  console.log('Proxy API?:', hasProxyAPI);
+  var hasProxyAPI_ = window.Proxy && (typeof(Proxy.create) === 'function');
+  console.log('Proxy API?:', hasProxyAPI_);
 
   /**
    * @class Struct
@@ -85,6 +89,9 @@
       wriatble: false,
       enumerable: false
     };
+
+    // Struct definition will never change
+    Object.freeze(props);
 
     this.structs[name] = props;
   }
@@ -135,8 +142,8 @@
     Object.defineProperties(obj, props);
 
     var ret;
-    if (hasProxyAPI) {
-      ret = Proxy.create(handlerMaker(obj, props));
+    if (hasProxyAPI_) {
+      ret = Proxy.create(handlerMaker_(obj, props));
     } else {
       //fallback
       ret = Object.seal(obj);
@@ -144,10 +151,26 @@
     return ret;
   }
 
+  var REGEXP_STRUCT_TYPE = /^struct:(.+)/;
+
+  /**
+   * Check struct type (internal)
+   */
+  function isStructType(type, obj) {
+    var mat = type.match(REGEXP_STRUCT_TYPE);
+    console.log(mat);
+    if (mat && Struct.isStruct(obj)) {
+      console.log(mat[1]);
+      console.log(Struct.getType(obj));
+      return Struct.getType(obj) === mat[1];
+    }
+    return false;
+  }
+
   /**
    * Create trap functions (internal)
    */
-  function handlerMaker(obj, props) {
+  function handlerMaker_(obj, props) {
     return {
 
       getOwnPropertyDescriptor: function(name) {
@@ -232,10 +255,10 @@
             throw name + ' is not writable property';
           }
 
-          // Check type
-          var safe = false;
+          // Check type match
+          var type = props[name].type;
           if (val === null || val === undefined ||
-              (typeof(val) === props[name].type)) {
+              typeof val === type || isStructType(type, val)) {
             // OK
           } else {
             throw name + ' must be ' + props[name].type + ' type';
