@@ -42,14 +42,18 @@
     return;
   }
 
+  var STRUCT_NAME_KEY = '__structName__';
+
+  // Check Proxy API is enabled
+  var hasProxyAPI = window.Proxy && (typeof(Proxy.create) === 'function');
+  console.log('Proxy API?:', hasProxyAPI);
+
   /**
    * @class Struct
    */
   var Struct = window.Struct = {
     structs: {}
   };
-
-  var STRUCT_NAME_KEY = '__structName__';
 
   /**
    * Define new struct.
@@ -102,9 +106,17 @@
     return undefined;
   }
 
-  // Check Proxy API is enabled
-  var hasProxyAPI = window.Proxy && (typeof(Proxy.create) === 'function');
-  console.log('Proxy API?:', hasProxyAPI);
+  /**
+   * Check is struct object or not.
+   *
+   * @param {Object} obj Object.
+   * @return {boolean} True if parameter is struct object.
+   */
+  Struct.isStruct = function(obj) {
+    return !!obj &&
+           typeof obj === 'object' &&
+           typeof obj[STRUCT_NAME_KEY] === 'string';
+  }
 
   /**
    * Create struct object.

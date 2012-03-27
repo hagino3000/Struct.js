@@ -175,11 +175,41 @@ describe('Check struct type name', function() {
     expect(Struct.getType({})).toBeUndefined();
   });
 
+  it('Should get undefined (Array)', function() {
+    expect(Struct.getType([])).toBeUndefined();
+  });
+
   it('Throws error when wrong parameter', function() {
     expect(function() {
       Struct.getType(true);
     }).toThrow('First argument must be object type');
   });
+});
 
+describe('Check is struct or not', function() {
+
+  it('Should get true for struct object', function() {
+    Struct.define('ForIsStructCheck', {
+      hoge: {type: 'string'}
+    });
+    var c = Struct.create('ForIsStructCheck');
+    expect(Struct.isStruct(c)).toBe(true);
+  });
+
+  it('Should get false (normal object)', function() {
+    expect(Struct.isStruct({})).toBe(false);
+  });
+
+  it('Should get false (Array)', function() {
+    expect(Struct.isStruct([])).toBe(false);
+  });
+
+  it('Should get false (null)', function() {
+    expect(Struct.isStruct(null)).toBe(false);
+  });
+
+  it('Should get false (undefined)', function() {
+    expect(Struct.isStruct(undefined)).toBe(false);
+  });
 
 });
