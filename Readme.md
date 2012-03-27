@@ -28,13 +28,15 @@
       life: 100
     });
 
-    sasuke.life = 50;       // works
+    sasuke.life = 50; // works
     sasuke.pos = Struct.create({x: 0, y: 0}); // works
-    var name = sasuke.name; // works
+    sasuke.pos.x = 100; // works
 
+    var name = sasuke.name;     // works
     var bar = sasuke.undefProp; // Throws error (read undefined property)
+
     sasuke.life = '50';         // Throws error (type unmatch)
-    sasuke.pos = {x:0, y:0, z:0}// Throws error (type unmatch)
+    sasuke.pos = {x:0,y:0,z:0}; // Throws error (type unmatch)
     sasuke.newProp = 'foo';     // Throws error (write undefined property)
     sasuke.name = 'hanzo';      // Throws error (write readonly property)
 
