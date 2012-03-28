@@ -353,7 +353,7 @@
       'string': isString,
       'number': isNumber,
       'boolean': isBoolean,
-      'funtion': isFunction,
+      'function': isFunction,
       'array': isArray,
       'arraylike': isArrayLike,
       'object': isObject,
