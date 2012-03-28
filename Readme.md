@@ -12,7 +12,7 @@
 
     // Define struct
     Struct.define('Position', {
-      x: {type: 'number'},
+      x: {type: 'number'}, 
       y: {type: 'number'}
     });
 
@@ -45,6 +45,10 @@
 
     //Check struct type name
     Struct.getType(sasuke); // => Ninja
+
+## Type Check
+
+Supported types are string, number, boolean, function, array, arraylike(array like object), object, anyobject, regexp, date, domnode.
 
 ## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 
