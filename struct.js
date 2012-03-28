@@ -357,7 +357,7 @@
       'array': isArray,
       'arraylike': isArrayLike,
       'object': isObject,
-      'objectlike': isObjectLike,
+      'anyobject': isObjectLike,
       'regexp': isRegExp,
       'date': isDate,
       'domnode': isDomNode,
