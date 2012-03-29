@@ -22,7 +22,7 @@ var STRUCT_NAME_KEY = '__structName__';
 var REGEXP_STRUCT_TYPE = /^struct:(.+)/;
 
 // Check Proxy API is enabled
-var hasProxyAPI = window.Proxy && (typeof(Proxy.create) === 'function');
+var hasProxyAPI = window.Proxy && isFunction(Proxy.create);
 
 // Support types and check methods
 var typeChecker = createChecker();
@@ -41,10 +41,10 @@ var Struct = namespace.Struct = {
  * @param {Object} props Property configs.
  */
 Struct.define = function(name, props) {
-  if (typeof(name) !== 'string') {
+  if (!isString(name)) {
     throw 'First argument must be String type (Struct name)';
   }
-  if (typeof(props) !== 'object') {
+  if (!isObject(props)) {
     throw 'Second argument must be Object type (Property settings)';
   }
   if (this.structs[name]) {
@@ -79,10 +79,10 @@ Struct.define = function(name, props) {
  * if an argument is not a Struct object.
  */
 Struct.getType = function(obj) {
-  if (typeof obj !== 'object') {
+  if (!isObjectLike(obj)) {
     throw 'First argument must be object type';
   }
-  if (obj.hasOwnProperty(STRUCT_NAME_KEY)) {
+  if (isObject(obj) && obj.hasOwnProperty(STRUCT_NAME_KEY)) {
     return obj[STRUCT_NAME_KEY];
   }
   return undefined;
@@ -95,9 +95,7 @@ Struct.getType = function(obj) {
  * @return {boolean} True if parameter is struct object.
  */
 Struct.isStruct = function(obj) {
-  return !!obj &&
-         typeof obj === 'object' &&
-         typeof obj[STRUCT_NAME_KEY] === 'string';
+  return isObject(obj) && isString(obj[STRUCT_NAME_KEY]);
 }
 
 /**
