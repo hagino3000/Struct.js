@@ -1,0 +1,6 @@
+[submodule "build/node_modules/uglify-js"]
+	path = build/node_modules/uglify-js
+	url = https://github.com/mishoo/UglifyJS.git
+[submodule "build/node_modules/mu2"]
+	path = build/node_modules/mu2
+	url = https://github.com/raycmorgan/Mu.git
