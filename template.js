@@ -1,5 +1,5 @@
 /*
-  struct.js v{{version}}
+  struct.js ver{{version}}
 
   This module use Proxy API provided by ECMAScript 6 (Harmony)
   @see http://wiki.ecmascript.org/doku.php?id=harmony:direct_proxies
@@ -9,18 +9,18 @@
 
  *
  */
-function() {
+(function(namespace) {
 'use strict';
 
 if (typeof Struct !== 'undefined') {
   return;
 }
 
-{{>api.js}}
+{{>src/api.js}}
 
-{{>handler.js}}
+{{>src/trap.js}}
 
-{{>typechecker.js}}
+{{>src/typechecker.js}}
 
-})();
+})(this);
 

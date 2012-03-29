@@ -1,6 +1,7 @@
 var mu = require('mu2'),
     fs = require('fs');
 
+var OUTPUT_FILE_NAME = 'struct.js';
 var buffer = '';
 
 mu.root = __dirname + '/../';
@@ -9,7 +10,8 @@ mu.compileAndRender('template.js', {version: 0.1})
       buffer += data.toString();
   })
   .on('end', function (data){
-      fs.writeFileSync('struct.js', buffer, 'UTF-8');
+      fs.writeFileSync(OUTPUT_FILE_NAME, buffer, 'UTF-8');
+      console.log('Created:' + OUTPUT_FILE_NAME);
   });
 
 
