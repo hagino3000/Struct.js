@@ -12,6 +12,15 @@ TARGET = clean concat minify test
 
 all: $(TARGET)
 
+setup_build_environment:
+	@echo "** Pull node_modules for building script"
+	git submodule init
+	git submodule update
+
+setup_test_environment: setup_build_environment
+	@echo "** Pull node_modules for test runner"
+	# TODO
+
 clean:
 	@echo "** Start clean generated files"
 	@if [ -f ${CONCAT_FILE} ] ; then echo "rm ${CONCAT_FILE}" ; rm -f ${CONCAT_FILE} ; fi
