@@ -4,8 +4,8 @@ var mu = require('mu2'),
 var OUTPUT_FILE_NAME = 'struct.js';
 var buffer = '';
 
-mu.root = __dirname + '/../';
-mu.compileAndRender('template.js', {version: 0.1})
+mu.root = __dirname + '/../src/';
+mu.compileAndRender('all.js', {version: 0.1})
   .on('data', function (data) {
       buffer += data.toString();
   })

@@ -16,11 +16,11 @@ if (typeof Struct !== 'undefined') {
   return;
 }
 
-{{>src/api.js}}
+{{>api.js}}
 
-{{>src/trap.js}}
+{{>trap.js}}
 
-{{>src/typechecker.js}}
+{{>typechecker.js}}
 
 })(this);
 
