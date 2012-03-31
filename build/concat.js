@@ -5,7 +5,7 @@ var OUTPUT_FILE_NAME = 'struct.js';
 var buffer = '';
 
 mu.root = __dirname + '/../src/';
-mu.compileAndRender('all.js', {version: 0.1})
+mu.compileAndRender('all.js', {})
   .on('data', function (data) {
       buffer += data.toString();
   })
