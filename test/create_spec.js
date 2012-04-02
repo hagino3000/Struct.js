@@ -92,15 +92,34 @@ describe('Create struct object', function() {
 
   it('Should be created specified struct without object', function() {
 
-    var n = Struct.create('Ninja');
-    n.name = 'Sasuke';
-    n.life = 10;
-
-    expect(n.name).toBe('Sasuke');
-    expect(n.life).toBe(10);
-    expect(n.age).toBeUndefined();
+    var p = Struct.create('Position');
+    expect(p.x).toBeUndefined();
+    p.x = 10;
+    expect(p.x).toBe(10);
+    expect(p.y).toBeUndefined();
   });
 
+  describe('Should be blocked to create struct with invalid object', function() {
+
+    it('Throws error when violate nullable option', function() {
+      expect(function() {
+          // createdAt is not nullable
+          var n = Struct.create('Ninja');
+      }).toThrow('updatedAt is not-nullable property but initial value is null');
+    });
+
+    it('Throws error when violate type option', function() {
+      expect(function() {
+          // createdAt is not nullable
+          var n = Struct.create('Ninja', {
+            name: 'Sasuke',
+            life: '10', // <= invalid
+            age: 20,
+            updatedAt: new Date()
+          });
+      }).toThrow('life must be number type. But initial value not matched');
+    });
+  });
 
   describe('Should be sealed undefiend property access', function() {
 

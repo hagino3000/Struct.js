@@ -111,9 +111,10 @@ Struct.create = function(name, obj) {
   if (!this.structs.hasOwnProperty(name)) {
     throw 'Struct named "' + name + '" is not defined';
   }
-  obj = obj || {};
-
   var props = this.structs[name];
+
+  obj = obj || {};
+  checkInitialValue(obj, props);
   Object.defineProperties(obj, props);
 
   var ret;
@@ -152,7 +153,33 @@ function isType(type, val) {
 
 
 /**
+ * Check initial object (internal)
+ *
+ * @param {Object} obj Check object.
+ * @param {Object} props Property definitions.
+ */
+function checkInitialValue(obj, props) {
+  for (var k in props) {
+    if (props.hasOwnProperty(k)) {
+      var p = props[k], val = obj[k];
+      if (p.nullable === false && isNullOrUndefined(val)) {
+        throw k + ' is not-nullable property but initial value is null';
+      }
+      if (isNullOrUndefined(val) || isStructType(p.type, val) || isType(p.type, val)) {
+        // OK
+      } else {
+        throw k + ' must be ' + props[k].type + ' type. But initial value not matched';
+      }
+    }
+  }
+}
+
+/**
  * Create trap functions (internal)
+ *
+ * @param {Object} obj Check object.
+ * @param {Object} props Property definitions.
+ * @return {Object} Proxy handler.
  */
 function handlerMaker(obj, props) {
   return {

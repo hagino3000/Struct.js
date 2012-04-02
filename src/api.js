@@ -91,9 +91,10 @@ Struct.create = function(name, obj) {
   if (!this.structs.hasOwnProperty(name)) {
     throw 'Struct named "' + name + '" is not defined';
   }
-  obj = obj || {};
-
   var props = this.structs[name];
+
+  obj = obj || {};
+  checkInitialValue(obj, props);
   Object.defineProperties(obj, props);
 
   var ret;
