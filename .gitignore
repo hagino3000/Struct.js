@@ -11,4 +11,6 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 
+test/node_modules/*
+
 .svn

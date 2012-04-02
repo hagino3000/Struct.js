@@ -1,0 +1,12 @@
+{
+ "src_dir"  : "/public/javascript/",
+ "spec_dir" : "/spec/",
+ "mon" : {
+   "build_cmd" : "echo 'building instruction executing....'"
+ },
+ "server":{
+   "port":8124
+ },
+ "externals":[
+ ]
+}

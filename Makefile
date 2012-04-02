@@ -8,7 +8,7 @@ MINIFY_FILE = struct.min.js
 
 default_target: all
 
-TARGET = clean concat minify test
+TARGET = clean concat minify
 
 all: $(TARGET)
 
@@ -16,10 +16,6 @@ setup_build_environment:
 	@echo "** Pull node_modules for building script"
 	git submodule init
 	git submodule update
-
-setup_test_environment: setup_build_environment
-	@echo "** Pull node_modules for test runner"
-	# TODO
 
 clean:
 	@echo "** Start clean generated files"
@@ -36,8 +32,13 @@ minify: concat
 	${JS_ENGINE} build/node_modules/uglify-js/bin/uglifyjs --unsafe ${CONCAT_FILE} > ${MINIFY_FILE}
 	@echo "Created ${MINIFY_FILE}"
 
+setup_test_environment: setup_build_environment
+	@echo "** Install node_modules for test runner"
+	# Install dependent modules to test/node_modules
+	cd test; npm install webworker express socket.io colors growl libnotify jade coffee-script; 
+
 test: concat
 	@echo "** Start tests"
-	# TODO use jasmine tool
+	cd test; 
 
 

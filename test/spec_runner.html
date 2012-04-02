@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
   <!-- Using TDD framework jasmine -->
-  <script type="text/javascript" src="./3rdparty/jasmine-1.1.0/jasmine.js"></script>
-  <script type="text/javascript" src="./3rdparty/jasmine-1.1.0/jasmine-html.js"></script>
+  <script type="text/javascript" src="./public/3rdparty/jasmine-1.1.0/jasmine.js"></script>
+  <script type="text/javascript" src="./public/3rdparty/jasmine-1.1.0/jasmine-html.js"></script>
   <!-- For ECMAScript6 support -->
-  <script type="text/javascript" src="./3rdparty/es5-shim.js"></script>
-  <script type="text/javascript" src="./3rdparty/es6-shim.js"></script>
+  <script type="text/javascript" src="./public/3rdparty/es5-shim.js"></script>
+  <script type="text/javascript" src="./public/3rdparty/es6-shim.js"></script>
   <!-- Include library -->
-  <script type="text/javascript" src="../struct.js"></script>
+  <script type="text/javascript" src="../public/javascript/struct.js"></script>
   <!-- Spec files -->
-  <script type="text/javascript" src="./create_spec.js"></script>
-  <script type="text/javascript" src="./typecheck_spec.js"></script>
+  <script type="text/javascript" src="./spec/create_spec.js"></script>
+  <script type="text/javascript" src="./spec/typecheck_spec.js"></script>
   <script type="text/javascript">
     (function() {
       var jasmineEnv = jasmine.getEnv();
@@ -40,7 +40,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" type="text/css" href="./3rdparty/jasmine-1.1.0/jasmine.css" />
+  <link rel="stylesheet" type="text/css" href="./public/3rdparty/jasmine-1.1.0/jasmine.css" />
   <meta charset="UTF-8">
   <title>Jasmine test runnner for Struct.js</title>
   <body>
