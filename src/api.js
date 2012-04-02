@@ -54,6 +54,16 @@ Struct.define = function(name, props) {
 }
 
 /**
+ * Returns specified name of struct is already defined.
+ *
+ * @param {String} name Struct name.
+ * @return {boolean} If defined or not.
+ */
+Struct.ifdef = function(name) {
+  return !!this.structs.hasOwnProperty(name);
+}
+
+/**
  * Gets struct type name.
  *
  * @param {Object} obj Object.

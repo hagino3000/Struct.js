@@ -16,6 +16,22 @@ describe('Global object definition', function() {
     expect(typeof Struct.create).toBe('function');
   });
 
+  it('Defined function Struct.ifdef', function() {
+    expect(typeof Struct.ifdef).toBe('function');
+  });
+
+  it('Defined function Struct.getType', function() {
+    expect(typeof Struct.getType).toBe('function');
+  });
+
+  it('Defined function Struct.isStruct', function() {
+    expect(typeof Struct.isStruct).toBe('function');
+  });
+
+  it('Defined function Struct.isStructType', function() {
+    expect(typeof Struct.isStruct).toBe('function');
+  });
+
 });
 
 describe('Define struct', function() {
@@ -47,8 +63,8 @@ describe('Define struct', function() {
       updatedAt: {type: 'date', nullable: false}
     });
 
-    expect(Struct.structs['Position']).toBeDefined();
-    expect(Struct.structs['Ninja']).toBeDefined();
+    expect(Struct.ifdef('Position')).toBe(true);
+    expect(Struct.ifdef('Ninja')).toBe(true);
   });
 
   it('Cannot define struct already defined', function() {
@@ -58,6 +74,10 @@ describe('Define struct', function() {
         life: 'number'
       });
     }).toThrow('Ninja is already defined');
+  });
+
+  it('Should returns false Struct.ifdef for undefined name', function() {
+    expect(Struct.ifdef('aaaaa')).toBe(false);
   });
 
 });
