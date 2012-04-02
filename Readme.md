@@ -54,13 +54,24 @@
 
 Supported types are string, number, boolean, function, array, arraylike(array like object), object, anyobject, regexp, date, domnode.
 
+## Production mode
+
+Struct.configure provides no-check-mode. It is good for performance.
+
+    Struct.configure({
+      "disable any check": true
+    });
+
 ## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 
-Now Struct.js works on Firefox4 or Chrome (need configure).
+Now Struct.js works on Firefox4 or Chrome (need configure) with es6-shim.js.
 On the other browser, struct object doesn't throw errors.
 
+@see https://github.com/paulmillr/es6-shim
+
 ## Road map
-* see https://github.com/hagino3000/Struct.js/issues?sort=created&direction=desc&state=open
+
+@see https://github.com/hagino3000/Struct.js/issues?sort=created&direction=desc&state=open
 
 ## License
 
