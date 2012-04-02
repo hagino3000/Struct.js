@@ -14,7 +14,7 @@
 (function(namespace) {
 'use strict';
 
-if (typeof Struct !== 'undefined') {
+if (typeof namespace.Struct !== 'undefined') {
   return;
 }
 
