@@ -8,7 +8,7 @@ MINIFY_FILE = struct.min.js
 
 default_target: all
 
-TARGET = clean concat minify test
+TARGET = clean concat minify
 
 all: $(TARGET)
 
@@ -38,6 +38,7 @@ minify: concat
 
 test: concat
 	@echo "** Start tests"
-	# TODO use jasmine tool
+	@echo "Currently test runner is a simple html file. (placed test/spec_runner.html)"
+	# TODO use jasmine tool, to launch from ci tool
 
 
