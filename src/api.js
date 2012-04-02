@@ -117,6 +117,38 @@ Struct.create = function(name, obj) {
   return ret;
 }
 
+/**
+ * Configure behavior.
+ *
+ * @param {Object} config Configuration.
+ */
+Struct.configure = function(config) {
+  if (Object.keys(this.structs).length > 0) {
+    console.log('WARNING: Some structs are already defined. This configure does not applied them.');
+  }
+  if (config["disable any check"] === true) {
+    Struct.create = createFake;
+  }
+}
+
+/**
+ * For no-check mode.
+ *
+ * @param {String} name Struct name.
+ * @param {Object} obj Base object (option).
+ * @return {Object} Fake struct object.
+ */
+function createFake(name, obj) {
+  obj = obj || {};
+
+  // Only add property for type check.
+  Object.defineProperty(obj, STRUCT_NAME_KEY, {
+    value: name,
+    wriatble: false,
+    enumerable: false
+  });
+  return obj;
+}
 
 /**
  * Check struct type (internal)
