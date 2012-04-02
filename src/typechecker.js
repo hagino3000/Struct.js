@@ -69,3 +69,7 @@ function isDomNode(val) {
   return val && isString(val.nodeName) && isArrayLike(val.childNodes);
 }
 
+function isNullOrUndefined(val) {
+  return val === null || val === undefined;
+}
+

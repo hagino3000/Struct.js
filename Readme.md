@@ -12,14 +12,15 @@
 
     // Define struct
     Struct.define('Position', {
-      x: {type: 'number'}, 
-      y: {type: 'number'}
+      x: {type: 'number', nullable: false}, 
+      y: {type: 'number', nullable: false}
     });
 
     Struct.define('Ninja', {
       name: {type: 'string', writable: false}, 
       life: {type: 'number'},
-      pos:  {type: 'struct:Position'}
+      pos:  {type: 'struct:Position'},
+      createdAt: {type: 'date'}
     });
 
     // Create struct object
@@ -39,6 +40,7 @@
     sasuke.pos = {x:0,y:0,z:0}; // Throws error (type unmatch)
     sasuke.newProp = 'foo';     // Throws error (write undefined property)
     sasuke.name = 'hanzo';      // Throws error (write readonly property)
+    sasuke.pos.x = null;        // Throws error (write not-nullable field by null)
 
     delete sasuke.life;  // works
     delete sasuke.life_; // Throws error (delete undefined property)

@@ -43,7 +43,8 @@ describe('Define struct', function() {
       name: {type: 'string'},
       life: {type: 'number'},
       age:  {type: 'number', writable: false},
-      pos:  {type: 'struct:Position'}
+      pos:  {type: 'struct:Position'},
+      updatedAt: {type: 'date', nullable: false}
     });
 
     expect(Struct.structs['Position']).toBeDefined();
@@ -66,10 +67,12 @@ describe('Create struct object', function() {
   var hanzo;
 
   beforeEach(function() {
-    if (hanzo) {
-      hanzo.life = 100;
-      hanzo.name = 'Sasuke';
-    }
+    hanzo = Struct.create('Ninja', {
+      name: 'Sasuke',
+      life: 100,
+      age: 20,
+      updatedAt: new Date()
+    });
   });
 
   it('Cannot create with name not defined', function() {
@@ -82,14 +85,8 @@ describe('Create struct object', function() {
 
   it('Should be created specified struct with object', function() {
 
-    hanzo = Struct.create('Ninja', {
-      name: 'Hanzo',
-      life: 200,
-      age: 20
-    });
-
-    expect(hanzo.name).toBe('Hanzo');
-    expect(hanzo.life).toBe(200);
+    expect(hanzo.name).toBe('Sasuke');
+    expect(hanzo.life).toBe(100);
 
   });
 
@@ -149,6 +146,24 @@ describe('Create struct object', function() {
     expect(function() {
       hanzo.pos = {x: 100, y: 200};
     }).toThrow("pos must be struct:Position type");
+  });
+
+  it('Should be blocked update not-nullable field by null', function() {
+    expect(function() {
+      hanzo.updatedAt = null;
+    }).toThrow("updatedAt is not allowd null or undefined");
+  });
+
+  it('Should be blocked update not-nullable field by undefined', function() {
+    expect(function() {
+      hanzo.updatedAt = undefined;
+    }).toThrow("updatedAt is not allowd null or undefined");
+  });
+
+  it('Should be blocked delete not-nullable', function() {
+    expect(function() {
+        delete hanzo.updatedAt;
+    }).toThrow("updatedAt is not allowd null or undefined");
   });
 
   it('Can set null value', function() {

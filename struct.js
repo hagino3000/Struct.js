@@ -189,6 +189,13 @@ function handlerMaker(obj, props) {
      */
     delete: function(name) {
       if (name in props) {
+
+        // Check property descriptor
+        var desc = this.getOwnPropertyDescriptor(name);
+        if (props[name].nullable === false) {
+          throw name + ' is not allowd null or undefined';
+        }
+
         return delete obj[name];
       } else {
         throw name + ' is not defined in this struct';
@@ -235,14 +242,17 @@ function handlerMaker(obj, props) {
 
         // Check property descriptor
         var desc = this.getOwnPropertyDescriptor(name);
-        if (!desc || !desc.writable) {
+        if (desc && !desc.writable) {
           throw name + ' is not writable property';
+        }
+
+        if (props[name].nullable === false && isNullOrUndefined(val)) {
+          throw name + ' is not allowd null or undefined';
         }
 
         // Check type match
         var type = props[name].type;
-        if (val === null || val === undefined || 
-            isStructType(type, val) || isType(type, val)) {
+        if (isNullOrUndefined(val) || isStructType(type, val) || isType(type, val)) {
           // OK
         } else {
           throw name + ' must be ' + props[name].type + ' type';
@@ -337,6 +347,10 @@ function isDate(val) {
 
 function isDomNode(val) {
   return val && isString(val.nodeName) && isArrayLike(val.childNodes);
+}
+
+function isNullOrUndefined(val) {
+  return val === null || val === undefined;
 }
 
 
