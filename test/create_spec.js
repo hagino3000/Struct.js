@@ -52,7 +52,7 @@ describe('Create struct object', function() {
 
   beforeEach(function() {
     hanzo = Struct.create('Ninja', {
-      name: 'Sasuke',
+      name: 'Hanzo',
       life: 100,
       age: 20,
       updatedAt: new Date()
@@ -69,8 +69,41 @@ describe('Create struct object', function() {
 
   it('Should be created specified struct with object', function() {
 
-    expect(hanzo.name).toBe('Sasuke');
-    expect(hanzo.life).toBe(100);
+    var now = new Date();
+
+    var sasuke = Struct.create('Ninja', {
+      name: 'Sasuke',
+      life: 100,
+      age: 20,
+      updatedAt: now,
+      pos: Struct.create('Position', {
+        x: 1, y:2
+      })
+    });
+
+    expect(sasuke.name).toBe('Sasuke');
+    expect(sasuke.life).toBe(100);
+    expect(sasuke.updatedAt).toBe(now);
+    expect(sasuke.pos.x).toBe(1);
+
+  });
+
+  it('Should be created specified struct with object (Auto boxing)', function() {
+
+    var now = new Date();
+
+    var sasuke = Struct.create('Ninja', {
+      name: 'Sasuke',
+      life: 100,
+      age: 20,
+      updatedAt: now,
+      pos: {x: 1, y: 2}
+    });
+
+    expect(sasuke.name).toBe('Sasuke');
+    expect(sasuke.life).toBe(100);
+    expect(sasuke.updatedAt).toBe(now);
+    expect(sasuke.pos.x).toBe(1);
 
   });
 

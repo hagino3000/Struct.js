@@ -21,6 +21,7 @@ var Struct = namespace.Struct = {
  *
  * @param {String} name Struct name.
  * @param {Object} props Property configs.
+ * @this Struct
  */
 Struct.define = function(name, props) {
   if (!isString(name)) {
@@ -51,17 +52,18 @@ Struct.define = function(name, props) {
   Object.freeze(props);
 
   this.structs[name] = props;
-}
+};
 
 /**
  * Returns specified name of struct is already defined.
  *
  * @param {String} name Struct name.
+ * @this Struct
  * @return {boolean} If defined or not.
  */
 Struct.ifdef = function(name) {
   return !!this.structs.hasOwnProperty(name);
-}
+};
 
 /**
  * Gets struct type name.
@@ -78,7 +80,7 @@ Struct.getType = function(obj) {
     return obj[STRUCT_NAME_KEY];
   }
   return undefined;
-}
+};
 
 /**
  * Check is struct object or not.
@@ -88,13 +90,14 @@ Struct.getType = function(obj) {
  */
 Struct.isStruct = function(obj) {
   return isObject(obj) && isString(obj[STRUCT_NAME_KEY]);
-}
+};
 
 /**
  * Create struct object.
  *
  * @param {String} name Struct name.
  * @param {Object} obj Base object (option).
+ * @this Struct
  * @return {Object} Struct object.
  */
 Struct.create = function(name, obj) {
@@ -115,21 +118,23 @@ Struct.create = function(name, obj) {
     ret = Object.seal(obj);
   }
   return ret;
-}
+};
 
 /**
  * Configure behavior.
  *
  * @param {Object} config Configuration.
+ * @this Struct
  */
 Struct.configure = function(config) {
   if (Object.keys(this.structs).length > 0) {
-    console.log('WARNING: Some structs are already defined. This configure does not applied them.');
+    console.log('WARNING: Some structs are already defined.' +
+                'This configure does not applied them.');
   }
-  if (config["disable any check"] === true) {
+  if (config['disable any check'] === true) {
     Struct.create = createFake;
   }
-}
+};
 
 /**
  * For no-check mode.
@@ -156,8 +161,6 @@ function createFake(name, obj) {
 function isStructType(type, obj) {
   var mat = type.match(REGEXP_STRUCT_TYPE);
   if (mat && Struct.isStruct(obj)) {
-    console.log(mat[1]);
-    console.log(Struct.getType(obj));
     return Struct.getType(obj) === mat[1];
   }
   return false;
@@ -172,3 +175,42 @@ function isType(type, val) {
   }
   return false;
 }
+
+/**
+ * Check initial object (internal)
+ *
+ * @param {Object} obj Check object.
+ * @param {Object} props Property definitions.
+ */
+function checkInitialValue(obj, props) {
+  for (var k in props) {
+    if (props.hasOwnProperty(k)) {
+      var p = props[k], val = obj[k];
+
+      if (isNullOrUndefined(val)) {
+        if (p.nullable === false) {
+          throw k + ' is not-nullable property but initial value is null';
+        }
+        continue;
+      }
+
+      if (isStructType(p.type, val) || isType(p.type, val)) {
+        continue;
+      }
+
+      var mat = p.type.match(REGEXP_STRUCT_TYPE);
+      if (mat) {
+        // Definition is struct type but normal object given
+        var structName = mat[1];
+        checkInitialValue(val, Struct.structs[structName]);
+        // Auto boxing
+        obj[k] = Struct.create(structName, val);
+        continue;
+      }
+
+      throw k + ' must be ' + props[k].type + 
+            ' type. But initial value not matched';
+    }
+  }
+}
+

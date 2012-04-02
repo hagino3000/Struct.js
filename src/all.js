@@ -1,5 +1,5 @@
 /*
-  struct.js ver0.1
+  struct.js ver0.2
 
   This module use Proxy API provided by ECMAScript 6 (Harmony)
   @see http://wiki.ecmascript.org/doku.php?id=harmony:direct_proxies
