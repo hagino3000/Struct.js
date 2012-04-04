@@ -13,7 +13,7 @@ function createChecker() {
     'anyobject': isObjectLike,
     'regexp': isRegExp,
     'date': isDate,
-    'domnode': isDomNode,
+    'domnode': isDomNode
   };
 }
 

@@ -208,7 +208,7 @@ function checkInitialValue(obj, props) {
         continue;
       }
 
-      throw k + ' must be ' + props[k].type + 
+      throw k + ' must be ' + props[k].type +
             ' type. But initial value not matched';
     }
   }

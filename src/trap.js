@@ -38,7 +38,7 @@ function handlerMaker(obj, props) {
      * Delete specified property.
      * Check property name if defined in advance.
      */
-    delete: function(name) {
+    'delete': function(name) {
       if (name in props) {
 
         // Check property descriptor

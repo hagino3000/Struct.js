@@ -228,7 +228,7 @@ function checkInitialValue(obj, props) {
         continue;
       }
 
-      throw k + ' must be ' + props[k].type + 
+      throw k + ' must be ' + props[k].type +
             ' type. But initial value not matched';
     }
   }
@@ -276,7 +276,7 @@ function handlerMaker(obj, props) {
      * Delete specified property.
      * Check property name if defined in advance.
      */
-    delete: function(name) {
+    'delete': function(name) {
       if (name in props) {
 
         // Check property descriptor
@@ -382,7 +382,7 @@ function createChecker() {
     'anyobject': isObjectLike,
     'regexp': isRegExp,
     'date': isDate,
-    'domnode': isDomNode,
+    'domnode': isDomNode
   };
 }
 

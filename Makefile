@@ -31,7 +31,11 @@ concat: clean ${FILES}
 	${JS_ENGINE} build/concat.js
 	@sleep 0.1
 
-minify: concat
+check: concat
+	@echo "** Start check source files by jshint"
+	${JS_ENGINE} build/check.js
+
+minify: check
 	@echo "** Start minify concat file"
 	${JS_ENGINE} build/node_modules/uglify-js/bin/uglifyjs --unsafe ${CONCAT_FILE} > ${MINIFY_FILE}
 	@echo "Created ${MINIFY_FILE}"
