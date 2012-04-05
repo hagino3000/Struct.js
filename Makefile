@@ -1,5 +1,3 @@
-JS_ENGINE ?= `which node nodejs 2>/dev/null`
-
 SRC_DIR = src
 FILES = ${SRC_DIR}/api.js ${SRC_DIR}/trap.js ${SRC_DIR}/typechecker.js ${SRC_DIR}/all.js
 
@@ -16,6 +14,8 @@ setup_build_environment:
 	@echo "** Pull node_modules for building script"
 	git submodule init
 	git submodule update
+	@cd build; npm install optimist
+	@cd build; npm install mu2
 
 setup_test_environment: setup_build_environment
 	@echo "** Pull node_modules for test runner"
@@ -28,16 +28,16 @@ clean:
 
 concat: clean ${FILES}
 	@echo "** Start concat source files"
-	${JS_ENGINE} build/concat.js
+	build/concat.js > ${CONCAT_FILE}
 	@sleep 0.1
 
 check: concat
 	@echo "** Start check source files by jshint"
-	${JS_ENGINE} build/check.js
+	build/check.js < ${CONCAT_FILE}
 
 minify: check
 	@echo "** Start minify concat file"
-	${JS_ENGINE} build/node_modules/uglify-js/bin/uglifyjs --unsafe ${CONCAT_FILE} > ${MINIFY_FILE}
+	build/node_modules/uglify-js/bin/uglifyjs --unsafe ${CONCAT_FILE} > ${MINIFY_FILE}
 	@echo "Created ${MINIFY_FILE}"
 
 test: concat
