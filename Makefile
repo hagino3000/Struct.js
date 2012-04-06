@@ -29,7 +29,6 @@ clean:
 concat: clean ${FILES}
 	@echo "** Start concat source files"
 	build/concat.js > ${CONCAT_FILE}
-	@sleep 0.1
 
 check: concat
 	@echo "** Start check source files by jshint"
