@@ -203,35 +203,40 @@ function isType(type, val) {
  * @param {Object} props Property definitions.
  */
 function checkInitialValue(obj, props) {
-  for (var k in props) {
-    if (props.hasOwnProperty(k)) {
-      var p = props[k], val = obj[k];
 
-      if (isNullOrUndefined(val)) {
-        if (p.nullable === false) {
-          throw k + ' is not-nullable property but initial value is null';
-        }
-        continue;
+  Object.keys(props).forEach(function(k) {
+    var p = props[k], val = obj[k];
+
+    if (isNullOrUndefined(val)) {
+      if (p.nullable === false) {
+        throw k + ' is not-nullable property but initial value is null';
       }
-
-      if (isStructType(p.type, val) || isType(p.type, val)) {
-        continue;
-      }
-
-      var mat = p.type.match(REGEXP_STRUCT_TYPE);
-      if (mat) {
-        // Definition is struct type but normal object given
-        var structName = mat[1];
-        checkInitialValue(val, Struct.structs[structName]);
-        // Auto boxing
-        obj[k] = Struct.create(structName, val);
-        continue;
-      }
-
-      throw k + ' must be ' + props[k].type +
-            ' type. But initial value not matched';
+      return;
     }
-  }
+
+    if (isStructType(p.type, val) || isType(p.type, val)) {
+      return;
+    }
+
+    var mat = p.type.match(REGEXP_STRUCT_TYPE);
+    if (mat) {
+      // Definition is struct type but normal object given
+      var structName = mat[1];
+      checkInitialValue(val, Struct.structs[structName]);
+      // Auto boxing
+      obj[k] = Struct.create(structName, val);
+      return;
+    }
+
+    throw k + ' must be ' + props[k].type +
+          ' type. But initial value not matched';
+  });
+
+  Object.keys(obj).forEach(function(k) {
+    if (!props.hasOwnProperty(k)) {
+      throw 'Invalid property found:' + k;
+    }
+  });
 }
 
 

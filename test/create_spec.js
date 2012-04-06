@@ -231,7 +231,65 @@ describe('Create struct object', function() {
     // But struct object has __structName__ property
     expect(hanzo.hasOwnProperty('__structName__')).toBe(true);
   });
+});
 
+describe('Support nested structure', function() {
+
+  it('Should be create definition', function() {
+
+    Struct.define('Size', {
+      width:  {type: 'number'},
+      height: {type: 'number'}
+    });
+
+    Struct.define('Rect', {
+      id: {type: 'string', writable: false},
+      size: {type: 'struct:Size', nullable: false},
+      pos:  {type: 'struct:Position', nullable: false},
+      el: {type: 'domnode'}
+    });
+
+  });
+
+  it('Should be create with valid object', function() {
+
+    var rect = Struct.create('Rect', {
+      id: 'my rect',
+      size: {width: 100, height: 100},
+      pos:  {x: 0, y:0},
+      el: null
+    });
+
+    expect(rect.id).toBe('my rect');
+    expect(rect.size.width).toBe(100);
+    expect(rect.pos.y).toBe(0);
+  });
+
+  it('Should be error with invalid object (appendix property)', function() {
+
+    expect(function() {
+      var rect = Struct.create('Rect', {
+        id: 'my rect',
+        size: {width: 100, height: 100},
+        pos:  {x: 0, y:0, z:999},
+        el: null
+      });
+    }).toThrow('Invalid property found:z');
+
+  });
+
+  it('Should be error with invalid object (type unmatch)', function() {
+
+    expect(function() {
+      var rect = Struct.create('Rect', {
+        id: 'my rect',
+        size: {width: new Date(), height: 100},
+        pos:  {x: 0, y:0},
+        el: null
+      });
+    }).toThrow('width must be number type. But initial value not matched');
+
+  });
 });
 
 describe('Check struct type name', function() {
