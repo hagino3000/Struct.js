@@ -55,6 +55,14 @@ Struct.define = function(name, props) {
   }
 
   Object.keys(props).forEach(function(k) {
+    // Check type
+    var t = props[k].type;
+    if (!typeChecker.hasOwnProperty(t) &&
+        !REGEXP_STRUCT_TYPE.test(t)) {
+
+      throw 'Supported types are :' +
+            Object.keys(typeChecker).join() + ',struct:*';
+    }
     // Set default writable:true
     if (props[k].writable === undefined) {
       props[k].writable = true;
