@@ -12,8 +12,8 @@
 
     // Define struct
     Struct.define('Position', {
-      x: {type: 'number', nullable: false}, 
-      y: {type: 'number', nullable: false}
+      x: {type: 'number', nullable: false, cond: 'v >= 0'}, 
+      y: {type: 'number', nullable: false, cond: 'v >= 0'}
     });
 
     Struct.define('Ninja', {
@@ -39,6 +39,7 @@
 
     sasuke.life = '50';         // Throws error (type unmatch)
     sasuke.pos.y = [];          // Throws error (type unmatch)
+    sasuke.pos.y = 0;           // Throws error (condition unmatch)
     sasuke.pos = {x:0,y:0,z:0}; // Throws error (type unmatch)
     sasuke.newProp = 'foo';     // Throws error (write undefined property)
     sasuke.name = 'hanzo';      // Throws error (write readonly property)
@@ -68,10 +69,6 @@ Now Struct.js works on Firefox4 or Chrome (need configure) with es6-shim.js.
 On the other browser, struct object doesn't throw errors.
 
 @see https://github.com/paulmillr/es6-shim
-
-## Road map
-
-@see https://github.com/hagino3000/Struct.js/issues?sort=created&direction=desc&state=open
 
 ## License
 
