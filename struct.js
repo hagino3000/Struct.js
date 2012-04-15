@@ -63,9 +63,15 @@ Struct.define = function(name, props) {
       throw 'Supported types are :' +
             Object.keys(typeChecker).join() + ',struct:*';
     }
+
     // Set default writable:true
     if (props[k].writable === undefined) {
       props[k].writable = true;
+    }
+
+    // Create function from condition formula
+    if (isString(props[k].cond)) {
+      props[k].cond = new Function('v', 'return ' + props[k].cond);
     }
   });
 
@@ -238,6 +244,14 @@ function checkInitialValue(obj, props) {
 
     throw k + ' must be ' + props[k].type +
           ' type. But initial value not matched';
+  });
+
+  // Check each condition formula
+  Object.keys(props).forEach(function(k) {
+    var p = props[k], val = obj[k];
+    if (p.cond && !p.cond(val)) {
+      throw 'Invalid value:' + k + '=' + String(val);
+    }
   });
 
   Object.keys(obj).forEach(function(k) {
