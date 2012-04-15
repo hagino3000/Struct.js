@@ -1,4 +1,4 @@
-# Object with strict type checking for JavaScript like a struct in C.
+# Object with strict type checking for JavaScript.
 
 ## Struct.js provides more strict type checking.
 
