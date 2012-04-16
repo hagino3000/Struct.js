@@ -109,6 +109,10 @@ function handlerMaker(obj, props) {
           throw name + ' must be ' + props[name].type + ' type';
         }
 
+        if (props[name].cond && !props[name].cond(val)) {
+          throw 'Invalid value:' + name + '=' + String(val);
+        }
+
         obj[name] = val;
         return true;
       } else {

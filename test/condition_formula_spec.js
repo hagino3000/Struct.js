@@ -45,5 +45,16 @@ describe('Condition formula', function() {
     expect(s.z).toBe('abc');
   });
 
+  it('Should be error when invalid value assigning', function() {
+    var s = Struct.create('TestForFormula', {
+      x: 101,
+      y: 999,
+      z: 'abc'
+    });
+    expect(function() {
+      s.x = 100;
+    }).toThrow('Invalid value:x=100');
+  });
+
 });
 
