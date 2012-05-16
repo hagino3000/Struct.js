@@ -39,7 +39,7 @@
 
     sasuke.life = '50';         // Throws error (type unmatch)
     sasuke.pos.y = [];          // Throws error (type unmatch)
-    sasuke.pos.y = 0;           // Throws error (condition unmatch)
+    sasuke.pos.y = -1;           // Throws error (condition unmatch)
     sasuke.pos = {x:0,y:0,z:0}; // Throws error (type unmatch)
     sasuke.newProp = 'foo';     // Throws error (write undefined property)
     sasuke.name = 'hanzo';      // Throws error (write readonly property)
