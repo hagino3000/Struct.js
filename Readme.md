@@ -62,6 +62,10 @@ Struct.configure provides no-check-mode. It is good for performance.
     Struct.configure({
       "disable any check": true
     });
+    
+## Next features
+
+* Node.js support
 
 ## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 
