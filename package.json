@@ -1,0 +1,22 @@
+{
+  "name": "struct-object",
+  "version": "0.0.4",
+  "description": "Object with strict type checking like a C struct.",
+  "main": "struct.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hagino3000/Struct.js.git"
+  },
+  "keywords": [
+    "Struct"
+  ],
+  "author": "hagino3000 (Takashi Nishibayashi)",
+  "license": "MIT",
+  "readmeFilename": "Readme.md"
+}
