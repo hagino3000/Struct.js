@@ -11,7 +11,7 @@
 
  *
  */
-(function(namespace) {
+;(function(namespace) {
 'use strict';
 
 if (typeof namespace.Struct !== 'undefined') {
