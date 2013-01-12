@@ -4,7 +4,8 @@ var STRUCT_NAME_KEY = '__structName__';
 var REGEXP_STRUCT_TYPE = /^struct:(.+)/;
 
 // Check Proxy API is enabled
-var hasProxyAPI = window.Proxy && isFunction(Proxy.create);
+var hasProxyAPI = global.Proxy && isFunction(global.Proxy.create);
+
 
 // Support types and check methods
 var typeChecker = createChecker();
@@ -12,7 +13,7 @@ var typeChecker = createChecker();
 /**
  * @class Struct
  */
-var Struct = namespace.Struct = {
+var Struct = {
   structs: {}
 };
 

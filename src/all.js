@@ -9,12 +9,12 @@
 
   @author hagino3000(http://twitter.com/hagino3000)
 
- *
+ 
  */
-(function(namespace) {
+(function(global, undefined) {
 'use strict';
 
-if (typeof namespace.Struct !== 'undefined') {
+if (typeof(global.Struct) !== 'undefined') {
   return;
 }
 
@@ -24,5 +24,13 @@ if (typeof namespace.Struct !== 'undefined') {
 
 {{>typechecker.js}}
 
-})(this);
+
+if (typeof(module) != 'undefined' && module.exports) {
+  module.exports = Struct;
+} else {
+  window.Struct = Struct;
+}
+
+
+})(typeof(window) != 'undefined' ? window : global);
 
