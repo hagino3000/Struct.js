@@ -6,6 +6,10 @@
  * @return {Object} Proxy handler.
  */
 function handlerMaker(obj, props) {
+
+  // Property name used by console.log
+  var INSPECTOR_PROP_NAME = 'inspector';
+
   return {
 
     getOwnPropertyDescriptor: function(name) {
@@ -77,7 +81,7 @@ function handlerMaker(obj, props) {
      * Check property name if defined in advance.
      */
     get: function(receiver, name) {
-      if (name in props) {
+      if (name in props || name == INSPECTOR_PROP_NAME) {
         return obj[name];
       } else {
         throw name + ' is not defined in this struct';
