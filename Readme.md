@@ -65,8 +65,15 @@ Struct.configure provides no-check-mode. It is good for performance.
 
 ## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 
+### Node.js
+
+Struct.js works with --harmony or --harmony_proxies option.
+
+### Browser
+
 Now Struct.js works on Firefox4 or Chrome (need configure) with es6-shim.js.
 On the other browser, struct object doesn't throw errors.
+
 
 @see https://github.com/paulmillr/es6-shim
 
