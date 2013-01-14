@@ -14,7 +14,7 @@
   @author hagino3000(http://twitter.com/hagino3000)
 
  */
-;(function(namespace) {
+;(function(global, undefined) {
 'use strict';
 
 if (typeof(global.Struct) !== 'undefined') {
