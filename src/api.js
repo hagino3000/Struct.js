@@ -151,7 +151,7 @@ Struct.configure = function(config) {
   }
   // For test
   if (config['disable any check'] === false) {
-    Struct.create = create;;
+    Struct.create = create;
   }
 };
 
