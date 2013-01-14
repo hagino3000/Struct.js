@@ -21,7 +21,10 @@
   "readmeFilename": "Readme.md",
   "dependencies": {
   },
-  "dev-dependencies": {
-    "jasmine-node": "~1.0.28"
+  "devDependencies": {
+    "jasmine-node": "~1.0.28",
+    "mu2": "=0.5.17",
+    "optimist": "=0.3.5",
+    "uglify-js": "=2.2.3"
   }
 }

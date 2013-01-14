@@ -1,3 +1,0 @@
-[submodule "build/node_modules/uglify-js"]
-	path = build/node_modules/uglify-js
-	url = https://github.com/mishoo/UglifyJS.git

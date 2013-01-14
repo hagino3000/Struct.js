@@ -34,7 +34,9 @@ function check(text) {
     smarttabs: true,
     predef: [
       "Proxy",
-      "console"
+      "console",
+      "module",
+      "global"
     ],
     maxerr: 100
   };
