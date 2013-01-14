@@ -1,6 +1,6 @@
 {
   "name": "struct-object",
-  "version": "0.0.4",
+  "version": "0.4.0",
   "description": "Object with strict type checking like a C struct.",
   "main": "struct.js",
   "directories": {
