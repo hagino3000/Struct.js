@@ -1,4 +1,4 @@
-var Struct = (typeof(require) != 'undefined') ? require(__dirname + '/../Struct.js') : window.Struct;
+var Struct = (typeof(require) != 'undefined') ? require(__dirname + '/../struct.js') : window.Struct;
 
 describe('Create fake object by Struct.configure', function() {
 

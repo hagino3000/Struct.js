@@ -1,4 +1,4 @@
-var Struct = (typeof(require) != 'undefined') ? require(__dirname + '/../Struct.js') : window.Struct;
+var Struct = (typeof(require) != 'undefined') ? require(__dirname + '/../struct.js') : window.Struct;
 
 var runNodejs = (typeof(require) != 'undefined');
 var it_browser = (runNodejs ? xit : it);
