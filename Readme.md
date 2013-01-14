@@ -1,5 +1,7 @@
 # Object with strict type checking for JavaScript.
 
+[![Build Status](https://travis-ci.org/hagino3000/Struct.js.png?branch=master)](https://travis-ci.org/hagino3000/Struct.js)
+
 ## Struct.js provides more strict type checking.
 
 * Throws error when **read undefined property**.
