@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "make test"
+    "test": "node --harmony ./node_modules/jasmine-node/bin/jasmine-node test"
   },
   "repository": {
     "type": "git",
