@@ -115,7 +115,7 @@ Struct.isStruct = function(obj) {
  * @this Struct
  * @return {Object} Struct object.
  */
-Struct.create = function(name, obj) {
+var create = Struct.create = function(name, obj) {
   if (!this.structs.hasOwnProperty(name)) {
     throw 'Struct named "' + name + '" is not defined';
   }
@@ -148,6 +148,10 @@ Struct.configure = function(config) {
   }
   if (config['disable any check'] === true) {
     Struct.create = createFake;
+  }
+  // For test
+  if (config['disable any check'] === false) {
+    Struct.create = create;;
   }
 };
 

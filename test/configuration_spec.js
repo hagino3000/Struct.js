@@ -1,3 +1,5 @@
+var Struct = (typeof(require) != 'undefined') ? require('../Struct.js') : window.Struct;
+
 describe('Create fake object by Struct.configure', function() {
 
   var fake;
@@ -67,6 +69,12 @@ describe('Create fake object by Struct.configure', function() {
       expect(Struct.getType(fake)).toBe('ForFakeTest');
     });
 
+  });
+  
+  runs(function() {
+    Struct.configure({
+      "disable any check": false
+    });
   });
 
 });

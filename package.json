@@ -18,5 +18,10 @@
   ],
   "author": "hagino3000 (Takashi Nishibayashi)",
   "license": "MIT",
-  "readmeFilename": "Readme.md"
+  "readmeFilename": "Readme.md",
+  "dependencies": {
+  },
+  "dev-dependencies": {
+    "jasmine-node": "~1.0.28"
+  }
 }
