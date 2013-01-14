@@ -1,6 +1,8 @@
 language: node_js
+before_install:
+  - "npm install"
+script: "node --harmony ./node_modules/jasmine-node/bin/jasmine-node test"
 node_js:
-  - 0.6
   - 0.8
 branches:
   only:
