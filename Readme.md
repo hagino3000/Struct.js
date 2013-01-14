@@ -4,11 +4,17 @@
 
 ## Struct.js provides more strict type checking.
 
+Works on Browser and Node.js.
+
 * Throws error when **read undefined property**.
 * Throws error when **write undefined property**.
 * Throws error when **delete undefined property**.
 * Throws error when **write with unmatched type**.
 * Throws error when **write not writable property**.
+
+## Use with Node.js
+
+    npm install struct-object
 
 ## Example
 
@@ -64,10 +70,6 @@ Struct.configure provides no-check-mode. It is good for performance.
     Struct.configure({
       "disable any check": true
     });
-    
-## Next features
-
-* Node.js support
 
 ## Struct.js needs Proxy API (ECMAScript 6 Harmony)
 
