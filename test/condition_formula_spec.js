@@ -1,3 +1,4 @@
+var Struct = (typeof(require) != 'undefined') ? require('../Struct.js') : window.Struct;
 
 describe('Condition formula', function() {
 

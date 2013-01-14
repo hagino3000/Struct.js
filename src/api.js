@@ -4,7 +4,8 @@ var STRUCT_NAME_KEY = '__structName__';
 var REGEXP_STRUCT_TYPE = /^struct:(.+)/;
 
 // Check Proxy API is enabled
-var hasProxyAPI = window.Proxy && isFunction(Proxy.create);
+var hasProxyAPI = global.Proxy && isFunction(global.Proxy.create);
+
 
 // Support types and check methods
 var typeChecker = createChecker();
@@ -12,7 +13,7 @@ var typeChecker = createChecker();
 /**
  * @class Struct
  */
-var Struct = namespace.Struct = {
+var Struct = {
   structs: {}
 };
 
@@ -114,7 +115,7 @@ Struct.isStruct = function(obj) {
  * @this Struct
  * @return {Object} Struct object.
  */
-Struct.create = function(name, obj) {
+var create = Struct.create = function(name, obj) {
   if (!this.structs.hasOwnProperty(name)) {
     throw 'Struct named "' + name + '" is not defined';
   }
@@ -147,6 +148,10 @@ Struct.configure = function(config) {
   }
   if (config['disable any check'] === true) {
     Struct.create = createFake;
+  }
+  // For test
+  if (config['disable any check'] === false) {
+    Struct.create = create;
   }
 };
 

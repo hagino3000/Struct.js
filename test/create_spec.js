@@ -1,3 +1,5 @@
+var Struct = (typeof(require) != 'undefined') ? require('../Struct.js') : window.Struct;
+
 describe('Define struct', function() {
 
   it('Throws error when wrong parameter (name)', function() {

@@ -1,3 +1,7 @@
+var Struct = (typeof(require) != 'undefined') ? require('../Struct.js') : window.Struct;
+
+var runNodejs = (typeof(require) != 'undefined');
+var it_browser = (runNodejs ? xit : it);
 
 describe('Native type checks', function() {
 
@@ -5,8 +9,8 @@ describe('Native type checks', function() {
     length: 0
   };
 
-  var objLike = window.location;
-  var domNode = document.body;
+  var objLike = runNodejs ? new Map() : window.location;
+  var domNode = runNodejs ? null : document.body;
 
   describe('String', function() {
 
@@ -79,7 +83,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -156,7 +160,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -232,7 +236,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -309,7 +313,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -384,7 +388,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -527,7 +531,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -601,7 +605,7 @@ describe('Native type checks', function() {
       expect(obj.p).toBe(d);
     });
 
-    it('Sould be set dom node', function() {
+    it_browser('Sould be set dom node', function() {
       obj.p = domNode;
       expect(obj.p).toBe(domNode);
     });
@@ -677,7 +681,7 @@ describe('Native type checks', function() {
       expect(obj.p).toBe(d);
     });
 
-    it('Sould be blocked unmatched type (Dom node)', function() {
+    it_browser('Sould be blocked unmatched type (Dom node)', function() {
       expect(function() {
         obj.p = document.body.firstChild;
       }).toThrow('p must be ' + type + ' type');
@@ -753,7 +757,7 @@ describe('Native type checks', function() {
       }).toThrow('p must be ' + type + ' type');
     });
 
-    it('Sould be set dom node', function() {
+    it_browser('Sould be set dom node', function() {
       obj.p = domNode;
       expect(obj.p).toBe(domNode);
     });

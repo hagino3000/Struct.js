@@ -1,20 +1,23 @@
 /*
-  struct.js ver0.3
+  struct.js ver0.4
 
   This module use Proxy API provided by ECMAScript 6 (Harmony)
   @see http://wiki.ecmascript.org/doku.php?id=harmony:direct_proxies
 
-  With ES6-shim(https://github.com/paulmillr/es6-shim) it
-  could also work in Firefox4 or Chrome.
+  On browser:
+    With ES6-shim(https://github.com/paulmillr/es6-shim) it
+    could also work in Firefox4 or Chrome.
+
+  On node.js
+    You have to add node option --harmony_proxies or --harmony option.
 
   @author hagino3000(http://twitter.com/hagino3000)
 
- *
  */
-(function(namespace) {
+(function(global, undefined) {
 'use strict';
 
-if (typeof namespace.Struct !== 'undefined') {
+if (typeof(global.Struct) !== 'undefined') {
   return;
 }
 
@@ -24,7 +27,8 @@ var STRUCT_NAME_KEY = '__structName__';
 var REGEXP_STRUCT_TYPE = /^struct:(.+)/;
 
 // Check Proxy API is enabled
-var hasProxyAPI = window.Proxy && isFunction(Proxy.create);
+var hasProxyAPI = global.Proxy && isFunction(global.Proxy.create);
+
 
 // Support types and check methods
 var typeChecker = createChecker();
@@ -32,7 +36,7 @@ var typeChecker = createChecker();
 /**
  * @class Struct
  */
-var Struct = namespace.Struct = {
+var Struct = {
   structs: {}
 };
 
@@ -134,7 +138,7 @@ Struct.isStruct = function(obj) {
  * @this Struct
  * @return {Object} Struct object.
  */
-Struct.create = function(name, obj) {
+var create = Struct.create = function(name, obj) {
   if (!this.structs.hasOwnProperty(name)) {
     throw 'Struct named "' + name + '" is not defined';
   }
@@ -167,6 +171,10 @@ Struct.configure = function(config) {
   }
   if (config['disable any check'] === true) {
     Struct.create = createFake;
+  }
+  // For test
+  if (config['disable any check'] === false) {
+    Struct.create = create;
   }
 };
 
@@ -271,6 +279,10 @@ function checkInitialValue(obj, props) {
  * @return {Object} Proxy handler.
  */
 function handlerMaker(obj, props) {
+
+  // Property name used by console.log
+  var INSPECTOR_PROP_NAME = 'inspector';
+
   return {
 
     getOwnPropertyDescriptor: function(name) {
@@ -342,7 +354,7 @@ function handlerMaker(obj, props) {
      * Check property name if defined in advance.
      */
     get: function(receiver, name) {
-      if (name in props) {
+      if (name in props || name == INSPECTOR_PROP_NAME) {
         return obj[name];
       } else {
         throw name + ' is not defined in this struct';
@@ -475,5 +487,13 @@ function isNullOrUndefined(val) {
 
 
 
-})(this);
+
+if (typeof(module) != 'undefined' && module.exports) {
+  module.exports = Struct;
+} else {
+  window.Struct = Struct;
+}
+
+
+})(typeof(window) != 'undefined' ? window : global);
 

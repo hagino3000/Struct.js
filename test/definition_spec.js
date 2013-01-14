@@ -1,11 +1,15 @@
+var Struct = (typeof(require) != 'undefined') ? require('../Struct.js') : window.Struct;
 
-if (!window.Proxy) {
+var runNodejs = (typeof(require) != 'undefined');
+var it_browser = (runNodejs ? xit : it);
+
+if (typeof(window) != 'undefined' && !window.Proxy) {
   alert('Proxy API is disabled in this browser');
 }
 
 describe('Global object definition', function() {
 
-  it('Defined global object named "Struct"', function() {
+  it_browser('Defined global object named "Struct"', function() {
     expect(window.Struct).toBeDefined();
   });
 
