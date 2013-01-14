@@ -1,4 +1,6 @@
 SRC_DIR = src
+.PHONY: test
+
 FILES = ${SRC_DIR}/api.js ${SRC_DIR}/trap.js ${SRC_DIR}/typechecker.js ${SRC_DIR}/all.js
 
 CONCAT_FILE = struct.js
@@ -34,7 +36,7 @@ minify: check
 	./node_modules/uglify-js/bin/uglifyjs --unsafe < ${CONCAT_FILE} > ${MINIFY_FILE}
 	@echo "Created ${MINIFY_FILE}"
 
-test: struct.js
+test:
 	@echo "** Start tests"
 	node --harmony ./node_modules/jasmine-node/bin/jasmine-node test
 

@@ -1,4 +1,4 @@
-var Struct = (typeof(require) != 'undefined') ? require('../Struct.js') : window.Struct;
+var Struct = (typeof(require) != 'undefined') ? require(__dirname + '/../Struct.js') : window.Struct;
 
 describe('Define struct', function() {
 
