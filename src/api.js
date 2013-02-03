@@ -1,21 +1,14 @@
+(function(undefined) {
+'use strict';
 
 var STRUCT_NAME_KEY = '__structName__';
 
 var REGEXP_STRUCT_TYPE = /^struct:(.+)/;
 
 // Check Proxy API is enabled
-var hasProxyAPI = global.Proxy && isFunction(global.Proxy.create);
+var hasProxyAPI = typeof(Proxy) !== 'undefined';
 
-
-// Support types and check methods
-var typeChecker = createChecker();
-
-/**
- * @class Struct
- */
-var Struct = {
-  structs: {}
-};
+var util = Struct.util;
 
 /**
  * Define new struct.
@@ -25,10 +18,10 @@ var Struct = {
  * @this Struct
  */
 Struct.define = function(name, props) {
-  if (!isString(name)) {
+  if (!util.isString(name)) {
     throw 'First argument must be String type (Struct name)';
   }
-  if (!isObject(props)) {
+  if (!util.isObject(props)) {
     throw 'Second argument must be Object type (Property settings)';
   }
   if (this.structs[name]) {
@@ -38,11 +31,11 @@ Struct.define = function(name, props) {
   Object.keys(props).forEach(function(k) {
     // Check type
     var t = props[k].type;
-    if (!typeChecker.hasOwnProperty(t) &&
+    if (!Struct.typeChecker.hasOwnProperty(t) &&
         !REGEXP_STRUCT_TYPE.test(t)) {
 
       throw 'Supported types are :' +
-            Object.keys(typeChecker).join() + ',struct:*';
+            Object.keys(Struct.typeChecker).join() + ',struct:*';
     }
 
     // Set default writable:true
@@ -51,7 +44,7 @@ Struct.define = function(name, props) {
     }
 
     // Create function from condition formula
-    if (isString(props[k].cond)) {
+    if (util.isString(props[k].cond)) {
       props[k].cond = new Function('v', 'return ' + props[k].cond);
     }
   });
@@ -88,10 +81,10 @@ Struct.ifdef = function(name) {
  * if an argument is not a Struct object.
  */
 Struct.getType = function(obj) {
-  if (!isObjectLike(obj)) {
+  if (!util.isObjectLike(obj)) {
     throw 'First argument must be object type';
   }
-  if (isObject(obj) && obj.hasOwnProperty(STRUCT_NAME_KEY)) {
+  if (util.isObject(obj) && obj.hasOwnProperty(STRUCT_NAME_KEY)) {
     return obj[STRUCT_NAME_KEY];
   }
   return undefined;
@@ -104,7 +97,7 @@ Struct.getType = function(obj) {
  * @return {boolean} True if parameter is struct object.
  */
 Struct.isStruct = function(obj) {
-  return isObject(obj) && isString(obj[STRUCT_NAME_KEY]);
+  return util.isObject(obj) && util.isString(obj[STRUCT_NAME_KEY]);
 };
 
 /**
@@ -127,7 +120,7 @@ var create = Struct.create = function(name, obj) {
 
   var ret;
   if (hasProxyAPI) {
-    ret = Proxy.create(handlerMaker(obj, props));
+    ret = Proxy.create(Struct._handlerMaker(obj, props));
   } else {
     //fallback
     ret = Object.seal(obj);
@@ -175,22 +168,12 @@ function createFake(name, obj) {
 }
 
 /**
- * Check struct type (internal)
+ * Check struct type.
  */
-function isStructType(type, obj) {
+Struct.isStructType = function(type, obj) {
   var mat = type.match(REGEXP_STRUCT_TYPE);
   if (mat && Struct.isStruct(obj)) {
     return Struct.getType(obj) === mat[1];
-  }
-  return false;
-}
-
-/**
- * Check value type (internal)
- */
-function isType(type, val) {
-  if (typeChecker[type]) {
-    return typeChecker[type](val);
   }
   return false;
 }
@@ -206,14 +189,14 @@ function checkInitialValue(obj, props) {
   Object.keys(props).forEach(function(k) {
     var p = props[k], val = obj[k];
 
-    if (isNullOrUndefined(val)) {
+    if (util.isNullOrUndefined(val)) {
       if (p.nullable === false) {
         throw k + ' is not-nullable property but initial value is null';
       }
       return;
     }
 
-    if (isStructType(p.type, val) || isType(p.type, val)) {
+    if (Struct.isStructType(p.type, val) || util.isType(p.type, val)) {
       return;
     }
 
@@ -245,4 +228,6 @@ function checkInitialValue(obj, props) {
     }
   });
 }
+
+})();
 

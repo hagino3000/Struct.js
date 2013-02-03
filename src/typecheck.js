@@ -1,21 +1,5 @@
-/**
- * Create type checker (internal)
- */
-function createChecker() {
-  return {
-    'string': isString,
-    'number': isNumber,
-    'boolean': isBoolean,
-    'function': isFunction,
-    'array': isArray,
-    'arraylike': isArrayLike,
-    'object': isObject,
-    'anyobject': isObjectLike,
-    'regexp': isRegExp,
-    'date': isDate,
-    'domnode': isDomNode
-  };
-}
+;(function(undefined) {
+'use strict';
 
 ///////////////////////////////////////////////
 // Type check functions
@@ -72,4 +56,39 @@ function isDomNode(val) {
 function isNullOrUndefined(val) {
   return val === null || val === undefined;
 }
+
+Struct.typeChecker = {
+  'string': isString,
+  'number': isNumber,
+  'boolean': isBoolean,
+  'function': isFunction,
+  'array': isArray,
+  'arraylike': isArrayLike,
+  'object': isObject,
+  'anyobject': isObjectLike,
+  'regexp': isRegExp,
+  'date': isDate,
+  'domnode': isDomNode
+};
+
+/**
+ * Check value type (internal)
+ */
+function isType(type, val) {
+  if (Struct.typeChecker[type]) {
+    return Struct.typeChecker[type](val);
+  }
+  return false;
+}
+
+
+Struct.util = {
+  isString: isString,
+  isObject: isObject,
+  isObjectLike: isObjectLike,
+  isType: isType,
+  isNullOrUndefined: isNullOrUndefined
+}
+
+})();
 

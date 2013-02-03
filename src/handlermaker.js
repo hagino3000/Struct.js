@@ -1,3 +1,6 @@
+(function(undefined) {
+'use strict';
+
 /**
  * Create trap functions (internal)
  *
@@ -5,10 +8,11 @@
  * @param {Object} props Property definitions.
  * @return {Object} Proxy handler.
  */
-function handlerMaker(obj, props) {
+Struct._handlerMaker = function(obj, props) {
 
   // Property name used by console.log
   var INSPECTOR_PROP_NAME = 'inspector';
+  var checker = Struct.typeChecker;
 
   return {
 
@@ -81,7 +85,7 @@ function handlerMaker(obj, props) {
      * Check property name if defined in advance.
      */
     get: function(receiver, name) {
-      if (name in props || name == INSPECTOR_PROP_NAME) {
+      if (name in props || name === INSPECTOR_PROP_NAME) {
         return obj[name];
       } else {
         throw name + ' is not defined in this struct';
@@ -107,7 +111,7 @@ function handlerMaker(obj, props) {
 
         // Check type match
         var type = props[name].type;
-        if (isNullOrUndefined(val) || isStructType(type, val) || isType(type, val)) {
+        if (isNullOrUndefined(val) || Struct.isStructType(type, val) || Struct.util.isType(type, val)) {
           // OK
         } else {
           throw name + ' must be ' + props[name].type + ' type';
@@ -134,4 +138,10 @@ function handlerMaker(obj, props) {
       return Object.keys(obj);
     }
   };
+};
+
+function isNullOrUndefined(val) {
+  return val === null || val === undefined;
 }
+
+})();
